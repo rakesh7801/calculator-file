@@ -1,0 +1,41 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.btn');
+    const displayOperation = document.querySelector('.operation');
+    const displayResult = document.querySelector('.result');
+    let operation = '';
+    let result = '';
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const value = button.textContent;
+
+            if (value === 'C') {
+                operation = '';
+                result = '';
+            } else if (value === '±') {
+                if (result) {
+                    result = String(-parseFloat(result));
+                } else if (operation) {
+                    operation = String(-parseFloat(operation));
+                }
+            } else if (value === '%') {
+                if (result) {
+                    result = String(parseFloat(result) / 100);
+                } else if (operation) {
+                    operation = String(parseFloat(operation) / 100);
+                }
+            } else if (value === '=') {
+                try {
+                    result = eval(operation);
+                } catch {
+                    result = 'Error';
+                }
+            } else {
+                operation += value;
+            }
+
+            displayOperation.textContent = operation;
+            displayResult.textContent = result;
+        });
+    });
+});
